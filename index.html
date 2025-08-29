@@ -8,7 +8,7 @@
     :root{ --gap:12px; }
     *{ box-sizing:border-box; }
 
-    /* ФОН: сдвиг + лёгкий зум, чтобы скрыть левый край */
+    /* ФОН */
     body{
       font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       margin:0; min-height:100vh;
@@ -21,7 +21,7 @@
       background-size:108% auto;
     }
 
-    /* LOADER (затемнение + блюр) */
+    /* LOADER */
     #loader{
       position:fixed; inset:0;
       display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
@@ -35,31 +35,31 @@
     #loader img{ width:160px; height:160px; }
     #loader .txt{ color:#fff; font-weight:700; text-shadow:0 2px 6px rgba(0,0,0,.35); }
 
-    /* Плавное появление приложения */
+    /* APP */
     .app{ opacity:0; transform:translateY(14px); filter:blur(6px);
           transition:opacity .5s ease, transform .5s ease, filter .5s ease; }
     .app.show{ opacity:1; transform:none; filter:none; }
 
-    /* Блок меню — поднят на 7% */
+    /* Блок меню — поднят на 10% */
     .panel{
       max-width:560px; width:100%;
       padding:20px; text-align:center;
-      margin-top:-7%;
+      margin-top:-10%;
     }
 
-    /* Логотип: не мешает загрузке — появляется ПОСЛЕ меню */
+    /* Логотип */
     .logo{
       position:absolute;
       top:20%;
       left:50%;
-      transform:translate(-50%, -6px) scale(0.96); /* стартовая поза */
-      opacity:0;                                    /* скрыт до готовности */
-      max-width:172px;                               /* +30% от прежнего */
+      transform:translate(-50%, -6px) scale(0.96);
+      opacity:0;
+      max-width:180px;   /* увеличили ещё на 5% */
       height:auto;
-      pointer-events:none;                           /* не перехватывает клики */
+      pointer-events:none;
       transition:
         opacity .6s ease .35s,
-        transform .6s ease .35s;                     /* мягкое появление с задержкой */
+        transform .6s ease .35s;
       z-index: 2;
     }
     .logo.visible{
@@ -67,10 +67,10 @@
       transform:translate(-50%, 0) scale(1);
     }
 
-    .grid{ display:grid; gap:var(--gap); margin-top:80px; }
+    .grid{ display:grid; gap:var(--gap); margin-top:100px; } /* большее расстояние между лого и меню */
     .row{ display:grid; grid-template-columns:1fr 1fr; gap:var(--gap); }
 
-    /* Кнопки */
+    /* Buttons */
     .btn-light{
       display:block; text-align:center; text-decoration:none;
       background:#fff; color:#111;
@@ -89,7 +89,7 @@
     }
     .btn-dark:hover{ background:rgba(58,58,58,.96); transform:translateY(-2px); }
 
-    /* Поочерёдное появление элементов меню */
+    /* Sequential items */
     .item{ opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s ease; }
     body.ready .item{ opacity:1; transform:none; }
     body.ready .item{ transition-delay: calc(var(--i, 0) * 120ms); }
@@ -104,7 +104,7 @@
 
   <!-- APP -->
   <div class="app" id="app">
-    <!-- ЛОГО (появится после меню) -->
+    <!-- ЛОГО -->
     <img class="logo" id="logo" src="logo.png" alt="Логотип">
 
     <div class="panel">
@@ -132,7 +132,7 @@
   </div>
 
   <script>
-    // Сначала скрываем лоадер → показываем меню → потом плавно показываем логотип
+    // Сначала загружается меню → потом логотип
     window.addEventListener('load', () => {
       const loader = document.getElementById('loader');
       const app = document.getElementById('app');
@@ -142,11 +142,11 @@
         loader.classList.add('hidden');
         setTimeout(() => {
           loader.style.display = 'none';
-          app.classList.add('show');     // меню появляется
-          document.body.classList.add('ready'); // триггер поочерёдных кнопок
+          app.classList.add('show');
+          document.body.classList.add('ready');
 
-          // спустя небольшой интервал — плавно показываем логотип
-          setTimeout(() => logo.classList.add('visible'), 450);
+          // логотип появляется чуть позже
+          setTimeout(() => logo.classList.add('visible'), 500);
         }, 360);
       }, 1200);
     });
