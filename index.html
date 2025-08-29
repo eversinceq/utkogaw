@@ -4,17 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>UTYA Mini App</title>
+
+  <!-- КЭШ-ФИКС -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
   <style>
     :root{ --gap:12px; }
     *{ box-sizing:border-box; }
 
-    /* ФОН: сдвиг + лёгкий зум, чтобы скрыть левый край */
     body{
       font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       margin:0;
-      min-height: var(--tg-vh, 100vh);   /* <- вместо 100vh */
+      min-height: var(--tg-vh, 100vh);
       display:flex; flex-direction:column; align-items:center; justify-content:center;
-
       background-color:#0e2b57;
       background-image:url('bg.png');
       background-repeat:no-repeat;
@@ -22,7 +26,7 @@
       background-size:108% auto;
     }
 
-    /* LOADER (затемнение + блюр) */
+    /* LOADER */
     #loader{
       position:fixed; inset:0;
       display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
@@ -36,42 +40,36 @@
     #loader img{ width:160px; height:160px; }
     #loader .txt{ color:#fff; font-weight:700; text-shadow:0 2px 6px rgba(0,0,0,.35); }
 
-    /* Плавное появление приложения */
+    /* APP */
     .app{ opacity:0; transform:translateY(14px); filter:blur(6px);
           transition:opacity .5s ease, transform .5s ease, filter .5s ease; }
     .app.show{ opacity:1; transform:none; filter:none; }
 
-    /* Блок меню — поднят на 10% */
+    /* блок меню поднят на 25% */
     .panel{
       max-width:560px; width:100%;
       padding:20px; text-align:center;
-      margin-top:-10%;
+      margin-top:-25%;
     }
 
-    /* Логотип: появляется ПОСЛЕ меню, больше на 5% и зазор +20% */
+    /* ЛОГО */
     .logo{
       position:absolute;
       top:20%;
       left:50%;
-      transform:translate(-50%, -6px) scale(0.96); /* стартовая поза */
-      opacity:0;                                    /* скрыт до готовности */
-      max-width:180px;                               /* увеличен на 5% */
+      transform:translate(-50%, -6px) scale(0.96);
+      opacity:0;
+      max-width:180px;
       height:auto;
-      pointer-events:none;                           /* не перехватывает клики */
-      transition:
-        opacity .6s ease .35s,
-        transform .6s ease .35s;                     /* мягкое появление с задержкой */
-      z-index: 2;
+      pointer-events:none;
+      transition:opacity .6s ease .35s, transform .6s ease .35s;
+      z-index:2;
     }
-    .logo.visible{
-      opacity:1;
-      transform:translate(-50%, 0) scale(1);
-    }
+    .logo.visible{ opacity:1; transform:translate(-50%, 0) scale(1); }
 
-    .grid{ display:grid; gap:var(--gap); margin-top:100px; } /* расстояние между лого и меню +20% */
+    .grid{ display:grid; gap:var(--gap); margin-top:120px; } /* расстояние между лого и меню */
     .row{ display:grid; grid-template-columns:1fr 1fr; gap:var(--gap); }
 
-    /* Кнопки */
     .btn-light{
       display:block; text-align:center; text-decoration:none;
       background:#fff; color:#111;
@@ -90,49 +88,39 @@
     }
     .btn-dark:hover{ background:rgba(58,58,58,.96); transform:translateY(-2px); }
 
-    /* Поочерёдное появление элементов меню */
     .item{ opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s ease; }
     body.ready .item{ opacity:1; transform:none; }
     body.ready .item{ transition-delay: calc(var(--i, 0) * 120ms); }
   </style>
 </head>
 <body>
-  <!-- LOADER -->
   <div id="loader" role="status" aria-live="polite">
     <img src="duck.gif" alt="Загрузка" />
     <div class="txt">Загрузка утят…</div>
   </div>
 
-  <!-- APP -->
   <div class="app" id="app">
-    <!-- ЛОГО (появится после меню) -->
     <img class="logo" id="logo" src="logo.png" alt="Логотип">
-
     <div class="panel">
       <div class="grid">
-        <a class="btn-light item" style="--i:0" href="https://t.me/+jT4fhXgOh3VmNjRi">❗️ Уведомления о новых подарках</a>
-
+        <a class="btn-light item" style="--i:0" href="https://t.me/+jT4fhXgOh3VmNjRi">❗️ Уведомления</a>
         <div class="row">
           <a class="btn-dark item" style="--i:1" href="https://t.me/portals/market?startapp=1881257197">🛍 Маркет</a>
           <a class="btn-dark item" style="--i:2" href="https://split.tg/utya">⭐️ ТГ звезды</a>
         </div>
-
         <div class="row">
           <a class="btn-dark item" style="--i:3" href="https://t.me/+Ax2zyGnLpMYxOGQy">💬 Наш чат</a>
           <a class="btn-dark item" style="--i:4" href="https://t.me/virus_play_bot/app?startapp=roulette_inviteCodeaKMeWAwSaAs93Zkl">🎰 Кейсы</a>
         </div>
-
         <div class="row">
           <a class="btn-dark item" style="--i:5" href="https://t.me/+jT4fhXgOh3VmNjRi">📰 Новости</a>
           <a class="btn-dark item" style="--i:6" href="https://t.me/giftsnewss/1096">📘 Гайд</a>
         </div>
-
-        <a class="btn-light item" style="--i:7" href="http://t.me/utyaotc">🤖 UTYA OTC | P2P маркет</a>
+        <a class="btn-light item" style="--i:7" href="http://t.me/utyaotc">🤖 UTYA OTC</a>
       </div>
     </div>
   </div>
 
-  <!-- Telegram WebApp API + авторазвёртывание и фиксация высоты -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
     function applyViewportHeight() {
@@ -140,30 +128,22 @@
       const h = tg?.viewportStableHeight || tg?.viewportHeight || window.innerHeight;
       document.documentElement.style.setProperty('--tg-vh', h + 'px');
     }
-
-    // Готовим WebApp и просим развернуть на весь экран
     const tg = window.Telegram?.WebApp;
-    tg?.ready();
-    tg?.expand();
+    tg?.ready(); tg?.expand();
     applyViewportHeight();
-
     tg?.onEvent?.('viewportChanged', applyViewportHeight);
     window.addEventListener('resize', applyViewportHeight);
 
-    // Сначала загружается меню → потом логотип
     window.addEventListener('load', () => {
       const loader = document.getElementById('loader');
       const app = document.getElementById('app');
       const logo = document.getElementById('logo');
-
       setTimeout(() => {
         loader.classList.add('hidden');
         setTimeout(() => {
           loader.style.display = 'none';
           app.classList.add('show');
           document.body.classList.add('ready');
-
-          // логотип появляется чуть позже
           setTimeout(() => logo.classList.add('visible'), 500);
         }, 360);
       }, 1200);
