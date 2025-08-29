@@ -18,7 +18,9 @@
       font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       margin:0;
       min-height: var(--tg-vh, 100vh);
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:flex-start;
+      padding-top:25%; /* подняли блок выше */
       background-color:#0e2b57;
       background-image:url('bg.png');
       background-repeat:no-repeat;
@@ -45,11 +47,9 @@
           transition:opacity .5s ease, transform .5s ease, filter .5s ease; }
     .app.show{ opacity:1; transform:none; filter:none; }
 
-    /* блок меню поднят на 25% */
     .panel{
       max-width:560px; width:100%;
       padding:20px; text-align:center;
-      margin-top:-25%;
     }
 
     /* ЛОГО */
@@ -67,7 +67,7 @@
     }
     .logo.visible{ opacity:1; transform:translate(-50%, 0) scale(1); }
 
-    .grid{ display:grid; gap:var(--gap); margin-top:120px; } /* расстояние между лого и меню */
+    .grid{ display:grid; gap:var(--gap); margin-top:120px; } /* дистанция между лого и блоком */
     .row{ display:grid; grid-template-columns:1fr 1fr; gap:var(--gap); }
 
     .btn-light{
@@ -103,20 +103,24 @@
     <img class="logo" id="logo" src="logo.png" alt="Логотип">
     <div class="panel">
       <div class="grid">
-        <a class="btn-light item" style="--i:0" href="https://t.me/+jT4fhXgOh3VmNjRi">❗️ Уведомления</a>
+        <a class="btn-light item" style="--i:0" href="https://t.me/+jT4fhXgOh3VmNjRi">❗️ Уведомления о новых подарках</a>
+
         <div class="row">
           <a class="btn-dark item" style="--i:1" href="https://t.me/portals/market?startapp=1881257197">🛍 Маркет</a>
           <a class="btn-dark item" style="--i:2" href="https://split.tg/utya">⭐️ ТГ звезды</a>
         </div>
+
         <div class="row">
           <a class="btn-dark item" style="--i:3" href="https://t.me/+Ax2zyGnLpMYxOGQy">💬 Наш чат</a>
-          <a class="btn-dark item" style="--i:4" href="https://t.me/virus_play_bot/app?startapp=roulette_inviteCodeaKMeWAwSaAs93Zkl">🎰 Кейсы</a>
+          <a class="btn-dark item" style="--i:4" href="https://t.me/virus_play_bot/app?startapp=roulette_inviteCodeaKMeWAwSaAs93Zkl">🎰 Кейсы с подарками</a>
         </div>
+
         <div class="row">
           <a class="btn-dark item" style="--i:5" href="https://t.me/+jT4fhXgOh3VmNjRi">📰 Новости</a>
-          <a class="btn-dark item" style="--i:6" href="https://t.me/giftsnewss/1096">📘 Гайд</a>
+          <a class="btn-dark item" style="--i:6" href="https://t.me/giftsnewss/1096">📘 Гайд по подаркам</a>
         </div>
-        <a class="btn-light item" style="--i:7" href="http://t.me/utyaotc">🤖 UTYA OTC</a>
+
+        <a class="btn-light item" style="--i:7" href="http://t.me/utyaotc">🤖 UTYA OTC | P2P маркет</a>
       </div>
     </div>
   </div>
