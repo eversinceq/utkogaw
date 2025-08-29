@@ -20,7 +20,7 @@
       min-height: var(--tg-vh, 100vh);
       display:flex; flex-direction:column;
       align-items:center; justify-content:flex-start;
-      padding-top:13%;                        /* положение общего блока меню */
+      padding-top:13%;
       background-color:#0e2b57;
       background-image:url('bg.png');
       background-repeat:no-repeat;
@@ -41,7 +41,7 @@
     #loader.hidden{ opacity:0; pointer-events:none; }
     #loader .loader-content{
       display:flex; flex-direction:column; align-items:center; gap:16px;
-      transform: translateY(-10%);            /* подняли гифку/текст на 10% */
+      transform: translateY(-10%);
     }
     #loader img{ width:160px; height:160px; }
     #loader .txt{ color:#fff; font-weight:700; text-shadow:0 2px 6px rgba(0,0,0,.35); }
@@ -72,8 +72,8 @@
 
     /* Кнопки */
     .btn-light, .btn-dark{
-      position:relative;                      /* фиксируем иконку внутри */
-      display:flex; align-items:center; justify-content:center;
+      position:relative;
+      display:flex; align-items:center; justify-content:center; gap:10px;
       text-decoration:none; text-align:center;
       min-height:52px;
       padding:12px 14px;
@@ -95,21 +95,32 @@
     }
     .btn-dark:hover{ background:rgba(58,58,58,.96); transform:translateY(-2px); }
 
-    /* ИКОНКА: фикс. размер и позиция 10% от левого края */
+    /* БАЗОВЫЙ размер иконок */
     .icon{
-      position:absolute;
-      left:10%;
-      top:50%;
-      width:28px; height:28px;                /* ~15% больше прежнего */
-      transform:translateY(-50%);
+      width:28px; height:28px;
+      display:block;
       object-fit:contain;
       pointer-events:none;
+      flex:0 0 auto;
     }
 
-    /* Текст смещаем, чтобы не наезжал на иконку */
-    .btn-light span, .btn-dark span{
+    /* ✅ Фиксация только для ТЁМНЫХ кнопок (левый/правый столбцы) */
+    .btn-dark .icon{
+      position:absolute;
+      left:13%;                /* ← как просили: 13% от левого края */
+      top:50%;
+      transform:translateY(-50%);
+    }
+    /* Текст тёмных кнопок сдвигаем, чтобы не пересекался с иконкой */
+    .btn-dark span{
       display:inline-block;
-      margin-left:36px;                       /* место под иконку */
+      margin-left:36px;
+    }
+
+    /* Белые кнопки (верх/низ) — иконка остаётся в потоке, ничего не меняем */
+    .btn-light .icon{
+      position:static;
+      transform:none;
     }
 
     /* Поочерёдное появление пунктов */
@@ -133,14 +144,14 @@
 
     <div class="panel">
       <div class="grid">
-        <!-- 1: Уведомления -->
+        <!-- 1: Уведомления (белая кнопка — НЕ трогаем, иконка в потоке) -->
         <a class="btn-light item" style="--i:0" href="https://t.me/+jT4fhXgOh3VmNjRi">
           <img class="icon" src="для уведомления о подарках.gif" alt="">
           <span>Уведомления о новых подарках</span>
         </a>
 
         <div class="row">
-          <!-- 2: Маркет -->
+          <!-- 2: Маркет (тёмная, иконка фиксирована на 13%) -->
           <a class="btn-dark item" style="--i:1" href="https://t.me/portals/market?startapp=1881257197">
             <img class="icon" src="для маркета.gif" alt="">
             <span>Маркет</span>
@@ -161,7 +172,7 @@
           <!-- 5: Кейсы -->
           <a class="btn-dark item" style="--i:4" href="https://t.me/virus_play_bot/app?startapp=roulette_inviteCodeaKMeWAwSaAs93Zkl">
             <img class="icon" src="для кейсов.gif" alt="">
-            <span>Кейсы</span>
+            <span>Кейсы с подарками</span>
           </a>
         </div>
 
@@ -174,11 +185,11 @@
           <!-- 7: Гайд -->
           <a class="btn-dark item" style="--i:6" href="https://t.me/giftsnewss/1096">
             <img class="icon" src="для гайда.gif" alt="">
-            <span>Гайд</span>
+            <span>Гайд по подаркам</span>
           </a>
         </div>
 
-        <!-- 8: P2P маркет -->
+        <!-- 8: P2P маркет (белая кнопка — НЕ трогаем) -->
         <a class="btn-light item" style="--i:7" href="http://t.me/utyaotc">
           <img class="icon" src="для п2п маркета.gif" alt="">
           <span>UTYA OTC | P2P маркет</span>
