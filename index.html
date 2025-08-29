@@ -99,11 +99,13 @@
 
     /* ИКОНКА: 10% больше текста */
     .icon{
-      height:1.1em;      /* на 10% выше размера шрифта */
-      width:auto;
-      flex:0 0 auto;
-      display:block;
-      image-rendering:auto;
+      width: 28px;   /* фиксируем ширину */
+      height: 28px;  /* фиксируем высоту (на ~15% больше чем раньше) */
+      flex: 0 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      object-fit: contain;  /* чтобы гифка не искажалась */
     }
 
     /* Поочерёдное появление */
