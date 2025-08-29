@@ -20,7 +20,7 @@
       min-height: var(--tg-vh, 100vh);
       display:flex; flex-direction:column;
       align-items:center; justify-content:flex-start;
-      padding-top:13%; /* общий блок чуть ниже */
+      padding-top:13%;                        /* положение общего блока меню */
       background-color:#0e2b57;
       background-image:url('bg.png');
       background-repeat:no-repeat;
@@ -28,7 +28,7 @@
       background-size:108% auto;
     }
 
-    /* LOADER: фон статичен, двигаем только контент */
+    /* LOADER: фон статичен; двигаем только контент */
     #loader{
       position:fixed; inset:0;
       display:flex; align-items:center; justify-content:center;
@@ -41,22 +41,20 @@
     #loader.hidden{ opacity:0; pointer-events:none; }
     #loader .loader-content{
       display:flex; flex-direction:column; align-items:center; gap:16px;
-      transform: translateY(-10%); /* подняли гифку+текст на 10% */
+      transform: translateY(-10%);            /* подняли гифку/текст на 10% */
     }
     #loader img{ width:160px; height:160px; }
     #loader .txt{ color:#fff; font-weight:700; text-shadow:0 2px 6px rgba(0,0,0,.35); }
 
-    /* APP */
+    /* APP появление */
     .app{ opacity:0; transform:translateY(14px); filter:blur(6px);
           transition:opacity .5s ease, transform .5s ease, filter .5s ease; }
     .app.show{ opacity:1; transform:none; filter:none; }
 
-    .panel{ max-width:560px; width:100%; padding:20px; text-align:center; }
-
     /* ЛОГО */
     .logo{
       position:absolute;
-      top:15%; /* выше */
+      top:15%;
       left:50%;
       transform:translate(-50%, -6px) scale(0.96);
       opacity:0;
@@ -68,12 +66,14 @@
     }
     .logo.visible{ opacity:1; transform:translate(-50%, 0) scale(1); }
 
+    .panel{ max-width:560px; width:100%; padding:20px; text-align:center; }
     .grid{ display:grid; gap:var(--gap); margin-top:120px; }
     .row{ display:grid; grid-template-columns:1fr 1fr; gap:var(--gap); }
 
     /* Кнопки */
     .btn-light, .btn-dark{
-      display:flex; align-items:center; justify-content:center; gap:10px;
+      position:relative;                      /* фиксируем иконку внутри */
+      display:flex; align-items:center; justify-content:center;
       text-decoration:none; text-align:center;
       min-height:52px;
       padding:12px 14px;
@@ -83,6 +83,7 @@
       font-weight:700;
       font-size:15px;
       line-height:1.2;
+      overflow:hidden;
     }
     .btn-light{ background:#fff; color:#111; }
     .btn-light:hover{ background:#f1f1f1; transform:translateY(-1px); }
@@ -94,15 +95,24 @@
     }
     .btn-dark:hover{ background:rgba(58,58,58,.96); transform:translateY(-2px); }
 
-    /* ИКОНКА: фиксированный размер (~15% больше прежнего) и жёсткое выравнивание */
+    /* ИКОНКА: фикс. размер и позиция 10% от левого края */
     .icon{
-      width:28px; height:28px;
-      flex:0 0 28px;
-      display:block;
-      object-fit:contain; /* не искажать гифки */
+      position:absolute;
+      left:10%;
+      top:50%;
+      width:28px; height:28px;                /* ~15% больше прежнего */
+      transform:translateY(-50%);
+      object-fit:contain;
+      pointer-events:none;
     }
 
-    /* Поочерёдное появление */
+    /* Текст смещаем, чтобы не наезжал на иконку */
+    .btn-light span, .btn-dark span{
+      display:inline-block;
+      margin-left:36px;                       /* место под иконку */
+    }
+
+    /* Поочерёдное появление пунктов */
     .item{ opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s ease; }
     body.ready .item{ opacity:1; transform:none; }
     body.ready .item{ transition-delay: calc(var(--i, 0) * 120ms); }
