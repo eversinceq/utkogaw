@@ -7,16 +7,21 @@
   <style>
     :root{ --gap:12px; }
     *{ box-sizing:border-box; }
+
+    /* ФОН: сдвиг и зум, чтобы скрыть тёмный левый край bg.png */
     body{
       font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: url('bg.png') no-repeat center center fixed;
-      background-size: cover;
-      margin:0;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      margin:0; min-height:100vh;
+      display:flex; align-items:center; justify-content:center;
+
+      background-color:#0e2b57;        /* запасной цвет */
+      background-image:url('bg.png');  /* файл лежит рядом с index.html */
+      background-repeat:no-repeat;
+      background-position:52% center;  /* сдвиг вправо */
+      background-size:108% auto;       /* лёгкий зум, «съедаем» края */
+      background-attachment:scroll;    /* стабильнее в WebView */
     }
+
     /* LOADER (затемнение + сильный блюр) */
     #loader{
       position:fixed; inset:0;
@@ -58,10 +63,10 @@
     }
     .btn-dark:hover{ background:rgba(58,58,58,.96); transform:translateY(-2px); }
 
-    /* Sequential items */
+    /* Поочерёдное появление */
     .item{ opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s ease; }
     body.ready .item{ opacity:1; transform:none; }
-    body.ready .item{ transition-delay: calc(var(--i, 0) * 120ms); } /* ← фикс: 120ms */
+    body.ready .item{ transition-delay: calc(var(--i, 0) * 120ms); } /* задержка 120ms */
   </style>
 </head>
 <body>
@@ -98,7 +103,7 @@
   </div>
 
   <script>
-    // Smooth loader hide + sequential reveal
+    // Скрываем лоадер и показываем элементы поочерёдно
     window.addEventListener('load', () => {
       const loader = document.getElementById('loader');
       const app = document.getElementById('app');
