@@ -3,62 +3,115 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UTYA Mini App — Standard Buttons</title>
+  <title>UTYA Mini App</title>
   <style>
-    body {
+    :root{ --gap:12px; }
+    *{ box-sizing:border-box; }
+    body{
       font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: #141218;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
+      background: url('bg.png') no-repeat center center fixed;
+      background-size: cover;
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
-    .panel { max-width: 560px; width: 100%; padding: 20px; }
-    .grid { display: grid; gap: 12px; }
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    /* LOADER (затемнение + сильный блюр) */
+    #loader{
+      position:fixed; inset:0;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
+      background:rgba(0,0,0,.72);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      z-index: 9999;
+      transition:opacity .45s ease;
+    }
+    #loader.hidden{ opacity:0; pointer-events:none; }
+    #loader img{ width:160px; height:160px; }
+    #loader .txt{ color:#fff; font-weight:700; letter-spacing:.2px; text-shadow:0 2px 6px rgba(0,0,0,.35); }
 
-    .btn-light {
-      display: block; text-align: center; text-decoration: none;
-      background: #ffffff; color: #111;
-      padding: 14px 16px; border-radius: 12px; font-weight: 700;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-      transition: background .2s ease, transform .1s ease;
-    }
-    .btn-light:hover { background: #f1f1f1; transform: translateY(-1px); }
+    /* APP FADE IN */
+    .app{ opacity:0; transform:translateY(14px); filter:blur(6px); transition:opacity .5s ease, transform .5s ease, filter .5s ease; }
+    .app.show{ opacity:1; transform:none; filter:none; }
 
-    .btn-dark {
-      display: block; text-align: center; text-decoration: none;
-      background: #2a2a2a; color: #e0e0e0;
-      padding: 14px 16px; border-radius: 12px; font-weight: 600; font-size: 15px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-      transition: background .2s ease, transform .1s ease;
+    .panel{ max-width:560px; width:100%; padding:20px; }
+    .grid{ display:grid; gap:var(--gap); }
+    .row{ display:grid; grid-template-columns:1fr 1fr; gap:var(--gap); }
+
+    /* Buttons */
+    .btn-light{
+      display:block; text-align:center; text-decoration:none;
+      background:#fff; color:#111;
+      padding:14px 16px; border-radius:12px; font-weight:700;
+      box-shadow:0 2px 6px rgba(0,0,0,.15);
+      transition:background .2s ease, transform .1s ease;
     }
-    .btn-dark:hover { background: #3a3a3a; transform: translateY(-2px); }
+    .btn-light:hover{ background:#f1f1f1; transform:translateY(-1px); }
+
+    .btn-dark{
+      display:block; text-align:center; text-decoration:none;
+      background:rgba(42,42,42,.92); color:#e0e0e0;
+      padding:14px 16px; border-radius:12px; font-weight:600; font-size:15px;
+      box-shadow:0 2px 6px rgba(0,0,0,.4);
+      transition:background .2s ease, transform .1s ease;
+    }
+    .btn-dark:hover{ background:rgba(58,58,58,.96); transform:translateY(-2px); }
+
+    /* Sequential items */
+    .item{ opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s ease; }
+    body.ready .item{ opacity:1; transform:none; }
+    body.ready .item{ transition-delay: calc(var(--i, 0) * 120ms); } /* ← фикс: 120ms */
   </style>
 </head>
 <body>
-  <div class="panel">
-    <div class="grid">
-      <a class="btn-light" href="https://t.me/+jT4fhXgOh3VmNjRi">❗️ Уведомления о новых подарках</a>
+  <!-- LOADER -->
+  <div id="loader" role="status" aria-live="polite">
+    <img src="duck.gif" alt="Загрузка" />
+    <div class="txt">Загрузка утят…</div>
+  </div>
 
-      <div class="row">
-        <a class="btn-dark" href="https://t.me/portals/market?startapp=1881257197">🛍 Маркет</a>
-        <a class="btn-dark" href="https://split.tg/utya">⭐️ ТГ звезды</a>
+  <!-- APP -->
+  <div class="app" id="app">
+    <div class="panel">
+      <div class="grid">
+        <a class="btn-light item" style="--i:0" href="https://t.me/+jT4fhXgOh3VmNjRi">❗️ Уведомления о новых подарках</a>
+
+        <div class="row">
+          <a class="btn-dark item" style="--i:1" href="https://t.me/portals/market?startapp=1881257197">🛍 Маркет</a>
+          <a class="btn-dark item" style="--i:2" href="https://split.tg/utya">⭐️ ТГ звезды</a>
+        </div>
+
+        <div class="row">
+          <a class="btn-dark item" style="--i:3" href="https://t.me/+Ax2zyGnLpMYxOGQy">💬 Наш чат</a>
+          <a class="btn-dark item" style="--i:4" href="https://t.me/virus_play_bot/app?startapp=roulette_inviteCodeaKMeWAwSaAs93Zkl">🎰 Кейсы</a>
+        </div>
+
+        <div class="row">
+          <a class="btn-dark item" style="--i:5" href="https://t.me/+jT4fhXgOh3VmNjRi">📰 Новости</a>
+          <a class="btn-dark item" style="--i:6" href="https://t.me/giftsnewss/1096">📘 Гайд</a>
+        </div>
+
+        <a class="btn-light item" style="--i:7" href="http://t.me/utyaotc">🤖 UTYA OTC | P2P маркет</a>
       </div>
-
-      <div class="row">
-        <a class="btn-dark" href="https://t.me/+Ax2zyGnLpMYxOGQy">💬 Наш чат</a>
-        <a class="btn-dark" href="https://t.me/virus_play_bot/app?startapp=roulette_inviteCodeaKMeWAwSaAs93Zkl">🎰 Кейсы</a>
-      </div>
-
-      <div class="row">
-        <a class="btn-dark" href="https://t.me/+jT4fhXgOh3VmNjRi">📰 Новости</a>
-        <a class="btn-dark" href="https://t.me/giftsnewss/1096">📘 Гайд</a>
-      </div>
-
-      <a class="btn-light" href="http://t.me/utyaotc">🤖 UTYA OTC | P2P маркет</a>
     </div>
   </div>
+
+  <script>
+    // Smooth loader hide + sequential reveal
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loader');
+      const app = document.getElementById('app');
+
+      setTimeout(() => {
+        loader.classList.add('hidden');
+        setTimeout(() => {
+          loader.style.display = 'none';
+          app.classList.add('show');
+          document.body.classList.add('ready');
+        }, 360);
+      }, 1200);
+    });
+  </script>
 </body>
 </html>
