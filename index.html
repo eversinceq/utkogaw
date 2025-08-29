@@ -39,15 +39,21 @@
     .app{ opacity:0; transform:translateY(14px); filter:blur(6px); transition:opacity .5s ease, transform .5s ease, filter .5s ease; }
     .app.show{ opacity:1; transform:none; filter:none; }
 
-    .panel{ max-width:560px; width:100%; padding:20px; text-align:center; }
+    .panel{ 
+      max-width:560px; 
+      width:100%; 
+      padding:20px; 
+      text-align:center; 
+      margin-top:-5%; /* подняли основной блок меню на 5% */
+    }
     
     /* ЛОГО */
     .logo{
       position:absolute;
-      top:20%; /* на 20% от верха экрана */
+      top:20%; /* логотип остаётся на 20% */
       left:50%;
       transform:translateX(-50%);
-      max-width:120px; /* можно регулировать размер */
+      max-width:132px; /* увеличили размер на 10% (было 120px) */
       height:auto;
     }
 
