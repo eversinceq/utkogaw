@@ -8,7 +8,7 @@
     :root{ --gap:12px; }
     *{ box-sizing:border-box; }
 
-    /* ФОН */
+    /* ФОН: сдвиг + лёгкий зум, чтобы скрыть левый край */
     body{
       font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       margin:0; min-height:100vh;
@@ -21,7 +21,7 @@
       background-size:108% auto;
     }
 
-    /* LOADER */
+    /* LOADER (затемнение + блюр) */
     #loader{
       position:fixed; inset:0;
       display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
@@ -35,32 +35,42 @@
     #loader img{ width:160px; height:160px; }
     #loader .txt{ color:#fff; font-weight:700; text-shadow:0 2px 6px rgba(0,0,0,.35); }
 
-    /* APP */
-    .app{ opacity:0; transform:translateY(14px); filter:blur(6px); transition:opacity .5s ease, transform .5s ease, filter .5s ease; }
+    /* Плавное появление приложения */
+    .app{ opacity:0; transform:translateY(14px); filter:blur(6px);
+          transition:opacity .5s ease, transform .5s ease, filter .5s ease; }
     .app.show{ opacity:1; transform:none; filter:none; }
 
-    .panel{ 
-      max-width:560px; 
-      width:100%; 
-      padding:20px; 
-      text-align:center; 
-      margin-top:-5%; /* подняли основной блок меню на 5% */
+    /* Блок меню — поднят на 7% */
+    .panel{
+      max-width:560px; width:100%;
+      padding:20px; text-align:center;
+      margin-top:-7%;
     }
-    
-    /* ЛОГО */
+
+    /* Логотип: не мешает загрузке — появляется ПОСЛЕ меню */
     .logo{
       position:absolute;
-      top:20%; /* логотип остаётся на 20% */
+      top:20%;
       left:50%;
-      transform:translateX(-50%);
-      max-width:132px; /* увеличили размер на 10% (было 120px) */
+      transform:translate(-50%, -6px) scale(0.96); /* стартовая поза */
+      opacity:0;                                    /* скрыт до готовности */
+      max-width:172px;                               /* +30% от прежнего */
       height:auto;
+      pointer-events:none;                           /* не перехватывает клики */
+      transition:
+        opacity .6s ease .35s,
+        transform .6s ease .35s;                     /* мягкое появление с задержкой */
+      z-index: 2;
+    }
+    .logo.visible{
+      opacity:1;
+      transform:translate(-50%, 0) scale(1);
     }
 
     .grid{ display:grid; gap:var(--gap); margin-top:80px; }
     .row{ display:grid; grid-template-columns:1fr 1fr; gap:var(--gap); }
 
-    /* Buttons */
+    /* Кнопки */
     .btn-light{
       display:block; text-align:center; text-decoration:none;
       background:#fff; color:#111;
@@ -79,7 +89,7 @@
     }
     .btn-dark:hover{ background:rgba(58,58,58,.96); transform:translateY(-2px); }
 
-    /* Sequential items */
+    /* Поочерёдное появление элементов меню */
     .item{ opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s ease; }
     body.ready .item{ opacity:1; transform:none; }
     body.ready .item{ transition-delay: calc(var(--i, 0) * 120ms); }
@@ -94,8 +104,8 @@
 
   <!-- APP -->
   <div class="app" id="app">
-    <!-- ЛОГО -->
-    <img class="logo" src="logo.png" alt="Логотип">
+    <!-- ЛОГО (появится после меню) -->
+    <img class="logo" id="logo" src="logo.png" alt="Логотип">
 
     <div class="panel">
       <div class="grid">
@@ -122,16 +132,21 @@
   </div>
 
   <script>
+    // Сначала скрываем лоадер → показываем меню → потом плавно показываем логотип
     window.addEventListener('load', () => {
       const loader = document.getElementById('loader');
       const app = document.getElementById('app');
+      const logo = document.getElementById('logo');
 
       setTimeout(() => {
         loader.classList.add('hidden');
         setTimeout(() => {
           loader.style.display = 'none';
-          app.classList.add('show');
-          document.body.classList.add('ready');
+          app.classList.add('show');     // меню появляется
+          document.body.classList.add('ready'); // триггер поочерёдных кнопок
+
+          // спустя небольшой интервал — плавно показываем логотип
+          setTimeout(() => logo.classList.add('visible'), 450);
         }, 360);
       }, 1200);
     });
