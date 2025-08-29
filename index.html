@@ -20,7 +20,7 @@
       min-height: var(--tg-vh, 100vh);
       display:flex; flex-direction:column;
       align-items:center; justify-content:flex-start;
-      padding-top:13%; /* ↓ было 10%, теперь опущено на 3% */
+      padding-top:13%;
       background-color:#0e2b57;
       background-image:url('bg.png');
       background-repeat:no-repeat;
@@ -28,7 +28,7 @@
       background-size:108% auto;
     }
 
-    /* LOADER */
+    /* LOADER (фон не двигаем; двигаем только контент) */
     #loader{
       position:fixed; inset:0;
       display:flex; align-items:center; justify-content:center;
@@ -37,16 +37,12 @@
       backdrop-filter: blur(18px);
       z-index: 9999;
       transition:opacity .45s ease;
-      /* ⚠️ Больше нет transform тут — фон остаётся на месте */
     }
     #loader.hidden{ opacity:0; pointer-events:none; }
-
-    /* Двигаем ТОЛЬКО содержимое лоадера вверх на 10% */
     #loader .loader-content{
       display:flex; flex-direction:column; align-items:center; gap:16px;
-      transform: translateY(-14%);
+      transform: translateY(-10%); /* подняли гифку+текст на 10% */
     }
-
     #loader img{ width:160px; height:160px; }
     #loader .txt{ color:#fff; font-weight:700; text-shadow:0 2px 6px rgba(0,0,0,.35); }
 
@@ -60,7 +56,7 @@
       padding:20px; text-align:center;
     }
 
-    /* ЛОГО (поднято на 10% от прежнего: сейчас 15%) */
+    /* ЛОГО */
     .logo{
       position:absolute;
       top:15%;
@@ -75,11 +71,12 @@
     }
     .logo.visible{ opacity:1; transform:translate(-50%, 0) scale(1); }
 
-    .grid{ display:grid; gap:var(--gap); margin-top:120px; } 
+    .grid{ display:grid; gap:var(--gap); margin-top:120px; }
     .row{ display:grid; grid-template-columns:1fr 1fr; gap:var(--gap); }
 
+    /* Кнопки + иконки */
     .btn-light, .btn-dark{
-      display:flex; align-items:center; justify-content:center; gap:8px;
+      display:flex; align-items:center; justify-content:center; gap:10px;
       text-decoration:none; text-align:center;
       min-height:52px;
       padding:12px 14px;
@@ -100,6 +97,16 @@
     }
     .btn-dark:hover{ background:rgba(58,58,58,.96); transform:translateY(-2px); }
 
+    /* ИКОНКА: 10% больше текста */
+    .icon{
+      height:1.1em;      /* на 10% выше размера шрифта */
+      width:auto;
+      flex:0 0 auto;
+      display:block;
+      image-rendering:auto;
+    }
+
+    /* Поочерёдное появление */
     .item{ opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s ease; }
     body.ready .item{ opacity:1; transform:none; }
     body.ready .item{ transition-delay: calc(var(--i, 0) * 120ms); }
@@ -118,24 +125,56 @@
 
     <div class="panel">
       <div class="grid">
-        <a class="btn-light item" style="--i:0" href="https://t.me/+jT4fhXgOh3VmNjRi">❗️ Уведомления о новых подарках</a>
+        <!-- 1: Уведомления -->
+        <a class="btn-light item" style="--i:0" href="https://t.me/+jT4fhXgOh3VmNjRi">
+          <img class="icon" src="для уведомления о подарках.gif" alt="" loading="lazy">
+          <span>Уведомления о новых подарках</span>
+        </a>
 
         <div class="row">
-          <a class="btn-dark item" style="--i:1" href="https://t.me/portals/market?startapp=1881257197">🛍 Маркет</a>
-          <a class="btn-dark item" style="--i:2" href="https://split.tg/utya">⭐️ ТГ звезды</a>
+          <!-- 2: Маркет -->
+          <a class="btn-dark item" style="--i:1" href="https://t.me/portals/market?startapp=1881257197">
+            <img class="icon" src="для маркета.gif" alt="" loading="lazy">
+            <span>Маркет</span>
+          </a>
+          <!-- 3: ТГ звезды -->
+          <a class="btn-dark item" style="--i:2" href="https://split.tg/utya">
+            <img class="icon" src="для тг звезд.gif" alt="" loading="lazy">
+            <span>ТГ звезды</span>
+          </a>
         </div>
 
         <div class="row">
-          <a class="btn-dark item" style="--i:3" href="https://t.me/+Ax2zyGnLpMYxOGQy">💬 Наш чат</a>
-          <a class="btn-dark item" style="--i:4" href="https://t.me/virus_play_bot/app?startapp=roulette_inviteCodeaKMeWAwSaAs93Zkl">🎰 Кейсы с подарками</a>
+          <!-- 4: Наш чат -->
+          <a class="btn-dark item" style="--i:3" href="https://t.me/+Ax2zyGnLpMYxOGQy">
+            <img class="icon" src="для наш чат.gif" alt="" loading="lazy">
+            <span>Наш чат</span>
+          </a>
+          <!-- 5: Кейсы -->
+          <a class="btn-dark item" style="--i:4" href="https://t.me/virus_play_bot/app?startapp=roulette_inviteCodeaKMeWAwSaAs93Zkl">
+            <img class="icon" src="для кейсов.gif" alt="" loading="lazy">
+            <span>Кейсы с подарками</span>
+          </a>
         </div>
 
         <div class="row">
-          <a class="btn-dark item" style="--i:5" href="https://t.me/+jT4fhXgOh3VmNjRi">📰 Новости</a>
-          <a class="btn-dark item" style="--i:6" href="https://t.me/giftsnewss/1096">📘 Гайд по подаркам</a>
+          <!-- 6: Новости -->
+          <a class="btn-dark item" style="--i:5" href="https://t.me/+jT4fhXgOh3VmNjRi">
+            <img class="icon" src="для новостей.gif" alt="" loading="lazy">
+            <span>Новости</span>
+          </a>
+          <!-- 7: Гайд -->
+          <a class="btn-dark item" style="--i:6" href="https://t.me/giftsnewss/1096">
+            <img class="icon" src="для гайда.gif" alt="" loading="lazy">
+            <span>Гайд по подаркам</span>
+          </a>
         </div>
 
-        <a class="btn-light item" style="--i:7" href="http://t.me/utyaotc">🤖 UTYA OTC | P2P маркет</a>
+        <!-- 8: P2P маркет -->
+        <a class="btn-light item" style="--i:7" href="http://t.me/utyaotc">
+          <img class="icon" src="для п2п маркета.gif" alt="" loading="lazy">
+          <span>UTYA OTC | P2P маркет</span>
+        </a>
       </div>
     </div>
   </div>
