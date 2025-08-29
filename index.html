@@ -20,7 +20,7 @@
       min-height: var(--tg-vh, 100vh);
       display:flex; flex-direction:column;
       align-items:center; justify-content:flex-start;
-      padding-top:13%;
+      padding-top:13%; /* общий блок чуть ниже */
       background-color:#0e2b57;
       background-image:url('bg.png');
       background-repeat:no-repeat;
@@ -28,7 +28,7 @@
       background-size:108% auto;
     }
 
-    /* LOADER (фон не двигаем; двигаем только контент) */
+    /* LOADER: фон статичен, двигаем только контент */
     #loader{
       position:fixed; inset:0;
       display:flex; align-items:center; justify-content:center;
@@ -51,15 +51,12 @@
           transition:opacity .5s ease, transform .5s ease, filter .5s ease; }
     .app.show{ opacity:1; transform:none; filter:none; }
 
-    .panel{
-      max-width:560px; width:100%;
-      padding:20px; text-align:center;
-    }
+    .panel{ max-width:560px; width:100%; padding:20px; text-align:center; }
 
     /* ЛОГО */
     .logo{
       position:absolute;
-      top:15%;
+      top:15%; /* выше */
       left:50%;
       transform:translate(-50%, -6px) scale(0.96);
       opacity:0;
@@ -74,7 +71,7 @@
     .grid{ display:grid; gap:var(--gap); margin-top:120px; }
     .row{ display:grid; grid-template-columns:1fr 1fr; gap:var(--gap); }
 
-    /* Кнопки + иконки */
+    /* Кнопки */
     .btn-light, .btn-dark{
       display:flex; align-items:center; justify-content:center; gap:10px;
       text-decoration:none; text-align:center;
@@ -97,15 +94,12 @@
     }
     .btn-dark:hover{ background:rgba(58,58,58,.96); transform:translateY(-2px); }
 
-    /* ИКОНКА: 10% больше текста */
+    /* ИКОНКА: фиксированный размер (~15% больше прежнего) и жёсткое выравнивание */
     .icon{
-      width: 28px;   /* фиксируем ширину */
-      height: 28px;  /* фиксируем высоту (на ~15% больше чем раньше) */
-      flex: 0 0 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      object-fit: contain;  /* чтобы гифка не искажалась */
+      width:28px; height:28px;
+      flex:0 0 28px;
+      display:block;
+      object-fit:contain; /* не искажать гифки */
     }
 
     /* Поочерёдное появление */
@@ -115,6 +109,7 @@
   </style>
 </head>
 <body>
+  <!-- LOADER -->
   <div id="loader" role="status" aria-live="polite">
     <div class="loader-content">
       <img src="duck.gif" alt="Загрузка" />
@@ -122,6 +117,7 @@
     </div>
   </div>
 
+  <!-- APP -->
   <div class="app" id="app">
     <img class="logo" id="logo" src="logo.png" alt="Логотип">
 
@@ -129,19 +125,19 @@
       <div class="grid">
         <!-- 1: Уведомления -->
         <a class="btn-light item" style="--i:0" href="https://t.me/+jT4fhXgOh3VmNjRi">
-          <img class="icon" src="для уведомления о подарках.gif" alt="" loading="lazy">
+          <img class="icon" src="для уведомления о подарках.gif" alt="">
           <span>Уведомления о новых подарках</span>
         </a>
 
         <div class="row">
           <!-- 2: Маркет -->
           <a class="btn-dark item" style="--i:1" href="https://t.me/portals/market?startapp=1881257197">
-            <img class="icon" src="для маркета.gif" alt="" loading="lazy">
+            <img class="icon" src="для маркета.gif" alt="">
             <span>Маркет</span>
           </a>
           <!-- 3: ТГ звезды -->
           <a class="btn-dark item" style="--i:2" href="https://split.tg/utya">
-            <img class="icon" src="для тг звезд.gif" alt="" loading="lazy">
+            <img class="icon" src="для тг звезд.gif" alt="">
             <span>ТГ звезды</span>
           </a>
         </div>
@@ -149,38 +145,39 @@
         <div class="row">
           <!-- 4: Наш чат -->
           <a class="btn-dark item" style="--i:3" href="https://t.me/+Ax2zyGnLpMYxOGQy">
-            <img class="icon" src="для наш чат.gif" alt="" loading="lazy">
+            <img class="icon" src="для наш чат.gif" alt="">
             <span>Наш чат</span>
           </a>
           <!-- 5: Кейсы -->
           <a class="btn-dark item" style="--i:4" href="https://t.me/virus_play_bot/app?startapp=roulette_inviteCodeaKMeWAwSaAs93Zkl">
-            <img class="icon" src="для кейсов.gif" alt="" loading="lazy">
-            <span>Кейсы</span>
+            <img class="icon" src="для кейсов.gif" alt="">
+            <span>Кейсы с подарками</span>
           </a>
         </div>
 
         <div class="row">
           <!-- 6: Новости -->
           <a class="btn-dark item" style="--i:5" href="https://t.me/+jT4fhXgOh3VmNjRi">
-            <img class="icon" src="для новостей.gif" alt="" loading="lazy">
+            <img class="icon" src="для новостей.gif" alt="">
             <span>Новости</span>
           </a>
           <!-- 7: Гайд -->
           <a class="btn-dark item" style="--i:6" href="https://t.me/giftsnewss/1096">
-            <img class="icon" src="для гайда.gif" alt="" loading="lazy">
-            <span>Гайд</span>
+            <img class="icon" src="для гайда.gif" alt="">
+            <span>Гайд по подаркам</span>
           </a>
         </div>
 
         <!-- 8: P2P маркет -->
         <a class="btn-light item" style="--i:7" href="http://t.me/utyaotc">
-          <img class="icon" src="для п2п маркета.gif" alt="" loading="lazy">
+          <img class="icon" src="для п2п маркета.gif" alt="">
           <span>UTYA OTC | P2P маркет</span>
         </a>
       </div>
     </div>
   </div>
 
+  <!-- Telegram WebApp API + авторазворачивание и фиксация высоты -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
     function applyViewportHeight() {
