@@ -31,16 +31,22 @@
     /* LOADER */
     #loader{
       position:fixed; inset:0;
-      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
+      display:flex; align-items:center; justify-content:center;
       background:rgba(0,0,0,.72);
       -webkit-backdrop-filter: blur(18px);
       backdrop-filter: blur(18px);
       z-index: 9999;
       transition:opacity .45s ease;
-
-      transform: translateY(-10%); /* подняли на 10% выше */
+      /* ⚠️ Больше нет transform тут — фон остаётся на месте */
     }
     #loader.hidden{ opacity:0; pointer-events:none; }
+
+    /* Двигаем ТОЛЬКО содержимое лоадера вверх на 10% */
+    #loader .loader-content{
+      display:flex; flex-direction:column; align-items:center; gap:16px;
+      transform: translateY(-10%);
+    }
+
     #loader img{ width:160px; height:160px; }
     #loader .txt{ color:#fff; font-weight:700; text-shadow:0 2px 6px rgba(0,0,0,.35); }
 
@@ -54,10 +60,10 @@
       padding:20px; text-align:center;
     }
 
-    /* ЛОГО (поднято на 10%) */
+    /* ЛОГО (поднято на 10% от прежнего: сейчас 15%) */
     .logo{
       position:absolute;
-      top:15%; /* ↑ было 20%, теперь выше */
+      top:15%;
       left:50%;
       transform:translate(-50%, -6px) scale(0.96);
       opacity:0;
@@ -101,8 +107,10 @@
 </head>
 <body>
   <div id="loader" role="status" aria-live="polite">
-    <img src="duck.gif" alt="Загрузка" />
-    <div class="txt">Загрузка утят…</div>
+    <div class="loader-content">
+      <img src="duck.gif" alt="Загрузка" />
+      <div class="txt">Загрузка утят…</div>
+    </div>
   </div>
 
   <div class="app" id="app">
